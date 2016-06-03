@@ -1,8 +1,7 @@
 var
   server = require('http').createServer(),
   express = require('express'),
-  app = express(),
-  port = 80;
+  app = express();
 var 
   WebSocketServer = require('ws').Server,
   wss = new WebSocketServer({ server: server });  
@@ -12,6 +11,7 @@ var Bot = require("../app/bot.js");
 //Websocket接続を保存しておく
 var connections = [];
 
+app.set('port', (process.env.PORT || 5000));
 app.use(express.static('app')); 
  
 app.get('/', function(req, res){
@@ -56,4 +56,4 @@ function broadcast(message) {
 };
 
 server.on('request', app);
-server.listen(port, function () { console.log('Listening on ' + server.address().port) });
+server.listen(app.get('port'), function () { console.log('Listening on ' + server.address().port) });
